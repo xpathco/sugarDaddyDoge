@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/web3@latest/dist/web3.min.js"></script>
+    <script src="./contract.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    hello world
+
+    <script>
+        // mainnet 
+        const web3 = new Web3('https://bsc-dataseed1.binance.org:443');
+        const account = web3.eth.accounts.create();
+        console.log(account.address);
+
+        const contract = new web3.eth.Contract(abi, "0x5c4137ac4f0af3830fd3e2276e44e4a6e02f00b8")
+        const init = async() => {
+            console.log(await contract.methods.balanceOf("0xd9036629476ce4a0f1405ba643ffb8ca11f761b6").call() / Math.pow(10, 18));
+            console.log(await contract.methods.decimals().call());
+
+        }
+        init()
+    </script>
+</body>
+
+</html>
