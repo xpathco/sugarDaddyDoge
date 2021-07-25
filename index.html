@@ -11,6 +11,8 @@
     <link rel="icon" href="./images/favicon.png" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://unpkg.com/web3@latest/dist/web3.min.js"></script>
+    <script src="./contract.js"></script>
 </head>
 
 <body style="margin: auto;">
@@ -20,9 +22,9 @@
                 <img style="height: 100px;width: 160px;" src="./images/SD with coins .png" alt="">
             </div>
             <div class="rounded relative w-full max-w-xl mr-6  flex">
-                <input style="background-color: white;border-color: #F969B4;" type="text" class="rounded-l py-2 border block w-full text-sm focus:outline-none text-gray-300 form-input leading-5  border-gray-700 focus:shadow-outline-purple focus:border-gray-600 focus:shadow-outline-gray bg-gray-700 pl-8  focus:ring-2 focus:ring-gray-400"
+                <input id="addy" style="background-color: white;border-color: #F969B4;" type="text" class="rounded-l py-2 border block w-full text-sm focus:outline-none text-gray-300 form-input leading-5  border-gray-700 focus:shadow-outline-purple focus:border-gray-600 focus:shadow-outline-gray bg-gray-700 pl-8  focus:ring-2 focus:ring-gray-400"
                     placeholder="Paste your address here" />
-                <button style="background-color: #F969B4; color: black;border-color: #F969B4;" class="py-2 px-4 bg-gray-600 rounded-r text-gray-300 focus:outline-none focus:ring-2 focus:ring- #FFDCDC-700 focus:shadow-outline-gray">SUBMIT</button>
+                <button onclick="init()" style="background-color: #F969B4; color: black;border-color: #F969B4;" class="py-2 px-4 bg-gray-600 rounded-r text-gray-300 focus:outline-none focus:ring-2 focus:ring- #FFDCDC-700 focus:shadow-outline-gray">SUBMIT</button>
             </div>
             <div>
             </div>
@@ -51,7 +53,7 @@
                             </div>
                             <div>
                                 <p style="color: black;" class="mb-2 text-sm font-medium ">Your SugarDaddyDoge Holdings</p>
-                                <p style="color: black;" class="text-lg font-semibold text-gray-200">0 SugarDaddyDoge</p>
+                                <p style="color: black;" class="text-lg font-semibold text-gray-200"><span id="yHoldings"></span> SugarDaddyDoge</p>
                             </div>
                         </div>
                     </div>
@@ -62,7 +64,7 @@
                             </div>
                             <div>
                                 <p style="color: black;" class="mb-2 text-sm font-medium ">Total BNB paid</p>
-                                <p style="color: black;" class="text-lg font-semibold text-gray-200">0 SugarDaddyDoge</p>
+                                <p style="color: black;" class="text-lg font-semibold text-gray-200"><span id="yBnbClaim"></span> BNB</p>
                             </div>
                         </div>
                     </div>
@@ -73,7 +75,7 @@
                             </div>
                             <div>
                                 <p style="color: black;" class="mb-2 text-sm font-medium ">Last Payout time</p>
-                                <p style="color: black;" class="text-lg font-semibold text-gray-200">0 SugarDaddyDoge</p>
+                                <p style="color: black;" class="text-lg font-semibold text-gray-200"><span id="LpayOut"></span></p>
                             </div>
                         </div>
                     </div>
@@ -84,7 +86,7 @@
                             </div>
                             <div>
                                 <p style="color: black;" class="mb-2 text-sm font-medium ">Payout Loading</p>
-                                <p style="color: black;" class="text-lg font-semibold text-gray-200">0 SugarDaddyDoge</p>
+                                <p style="color: black;" class="text-lg font-semibold text-gray-200"><span id="payLoad"></span> </p>
                             </div>
                         </div>
                     </div>
@@ -103,117 +105,120 @@
     </section>
     </div>
 
-
-
     <div style="padding: 60px;" class="row">
         <div class="col-sm-4">
-            <div style="background-color: #FFDCDC;" class="card">
-                <div class="card-body">
-                    <p style="color: #333;font-size: 20px;" class="mt-4 font-medium text-gray-300 text-3xl text-center ">
+            <div class="card">
+                <div style="background-color: #FFDCDC; border: #FFDCDC 2px solid;padding: 0;" class="card-body">
+                    <p style="color: #333;font-size: 20px;height: 100px;" class="mt-4 font-medium text-gray-300 text-3xl text-center ">
                         Your 0 SugarDaddyDoge Earns
                     </p>
+                    <div style="background-color: white;" class="p-4 flex flex-col text-left items-left ">
+                        <div class="flex ">
+                            <p style="color: black;font-size: 15px; " class="text-green-400 text-2xl text-center ">
+                                <span>0.00 BNB</span>($0.00)
+                                <span class=" text-xl text-center ml-2 mt-2 ">Per Day</span>
+                            </p>
+                        </div>
+                        <div class="flex ">
+                            <p style="color: black;font-size: 15px; " class="text-green-400 text-2xl text-center ">
+                                <span>0.00 BNB</span>($0.00)
+                                <span class=" text-xl text-center ml-2 mt-2 ">Per Week</span>
+                            </p>
+                        </div>
+                        <div class="flex ">
+                            <p style="color: black;font-size: 15px; " class=" text-green-400 text-2xl text-center ">
+                                <span>0.00 BNB</span>($0.00)
+                                <span class=" text-xl text-center ml-2 mt-2 ">Per Month</span>
+                            </p>
+                        </div>
+                        <div class="flex ">
+                            <p style="color: black;font-size: 15px; " class="text-green-400 text-2xl text-center ">
+                                <span>0.00 BNB</span>($0.00)
+                                <span class="text-xl text-center ml-2 mt-2 ">Per Year</span>
+                            </p>
+                        </div>
+                        <p style="color: green; " class=" py-1 text-xl text-left -mt-2 ">Dynamic estimations based on 24h of trading volume ($1,219,169)
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
+        <br>
         <div class="col-sm-4">
             <div style="background-color: #FFDCDC;" class="card">
-                <p style="color: #333;font-size:20px" class="mt-4 font-semibold text-gray-300 text-3xl text-center ">Total BNB Paid To SugarDaddyDoge Holders
+                <p style="color: #333;font-size:20px;height: 100px;" class="mt-4 font-semibold text-gray-300 text-3xl text-center ">Total BNB Paid To SugarDaddyDoge Holders
                 </p>
+                <div style="border: #FFDCDC solid 2px;height: 340px;padding: 0px;" class="card ">
+                    <div class="p-4 flex flex-col text-center items-center ">
+                        <br><br><br><br>
+                        <p style="font-size: 25px; " class="text-green-400 text-4xl md:text-6xl text-center mb-8 ">
+                            17,555
+                            <span>BNB</span> = $5,122,290
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
+        <br>
         <div class="col-sm-4">
-            <div style="background-color: #FFDCDC;" class="card">
-                <div class="card-body">
-                    <p style="color: #333;font-size: 20px;" class="mt-4 font-semibold text-gray-300 text-3xl text-center ">
+            <div class="card">
+                <div style="background-color: #FFDCDC; border: #FFDCDC 2px solid;padding: 0;" class="card-body">
+                    <p style="color: #333;font-size: 20px;height: 100px;" class="mt-4 font-medium text-gray-300 text-3xl text-center ">
                         Your 0 SugarDaddyDoge Earns
                     </p>
+                    <div style="background-color: white;" class="p-4 flex flex-col text-left items-left ">
+                        <div class="flex ">
+                            <p style="color: black;font-size: 15px; " class="text-green-400 text-2xl text-center ">
+                                <span>0.00 BNB</span>($0.00)
+                                <span class=" text-xl text-center ml-2 mt-2 ">Per Day</span>
+                            </p>
+                        </div>
+                        <div class="flex ">
+                            <p style="color: black;font-size: 15px; " class="text-green-400 text-2xl text-center ">
+                                <span>0.00 BNB</span>($0.00)
+                                <span class=" text-xl text-center ml-2 mt-2 ">Per Week</span>
+                            </p>
+                        </div>
+                        <div class="flex ">
+                            <p style="color: black;font-size: 15px; " class=" text-green-400 text-2xl text-center ">
+                                <span>0.00 BNB</span>($0.00)
+                                <span class=" text-xl text-center ml-2 mt-2 ">Per Month</span>
+                            </p>
+                        </div>
+                        <div class="flex ">
+                            <p style="color: black;font-size: 15px; " class="text-green-400 text-2xl text-center ">
+                                <span>0.00 BNB</span>($0.00)
+                                <span class="text-xl text-center ml-2 mt-2 ">Per Year</span>
+                            </p>
+                        </div>
+                        <p style="color: green; " class=" py-1 text-xl text-left -mt-2 ">Dynamic estimations based on 24h of trading volume ($1,219,169)
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <br><br>
 
-    <div style="padding: 60px;" class="row">
-        <div class="col-sm-4">
-            <div style="border: #FFDCDC solid 2px;" class="card">
-                <div class="p-4 flex flex-col text-left items-left ">
-                    <br><br>
-                    <div class="flex ">
-                        <p style="color: black;font-size: 15px; " class="text-green-400 text-2xl text-center ">
-                            <span>0.00 BNB</span>($0.00)
-                            <span class=" text-xl text-center ml-2 mt-2 ">Per Day</span>
-                        </p>
-                    </div>
-                    <div class="flex ">
-                        <p style="color: black;font-size: 15px; " class="text-green-400 text-2xl text-center ">
-                            <span>0.00 BNB</span>($0.00)
-                            <span class=" text-xl text-center ml-2 mt-2 ">Per Week</span>
-                        </p>
-                    </div>
-                    <div class="flex ">
-                        <p style="color: black;font-size: 15px; " class=" text-green-400 text-2xl text-center ">
-                            <span>0.00 BNB</span>($0.00)
-                            <span class=" text-xl text-center ml-2 mt-2 ">Per Month</span>
-                        </p>
-                    </div>
-                    <div class="flex ">
-                        <p style="color: black;font-size: 15px; " class="text-green-400 text-2xl text-center ">
-                            <span>0.00 BNB</span>($0.00)
-                            <span class="text-xl text-center ml-2 mt-2 ">Per Year</span>
-                        </p>
-                    </div>
-                    <p style="color: green; " class=" py-1 text-xl text-left -mt-2 ">Dynamic estimations based on 24h of trading volume ($1,219,169)
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 ">
-            <div style="border: #FFDCDC solid 2px;height: 360px;padding: 10px;" class="card ">
-                <div class="p-4 flex flex-col text-center items-center ">
-                    <br><br><br><br>
-                    <p style="font-size: 30px; " class="text-green-400 text-4xl md:text-6xl text-center mb-8 ">
-                        17,555
-                        <span>BNB</span> = $5,122,290
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 ">
-            <div style="border: #FFDCDC solid 2px;" class=" card ">
-                <div class="p-4 flex flex-col text-left items-left ">
-                    <br><br>
-                    <div class="flex ">
-                        <p style="color: black;font-size: 15px;" class=" text-green-400 text-2xl text-center ">
-                            <span>0.00 BNB</span>($0.00)
-                            <span class=" text-xl text-center ml-2 mt-2 ">Per Day</span>
-                        </p>
-                    </div>
-                    <div class="flex ">
-                        <p style="color: black;font-size: 15px; " class="text-green-400 text-2xl text-center ">
-                            <span>0.00 BNB</span>($0.00)
-                            <span class=" text-xl text-center ml-2 mt-2 ">Per Week</span>
-                        </p>
-                    </div>
-                    <div class="flex ">
-                        <p style="color: black;font-size: 15px;" class=" text-green-400 text-2xl text-center ">
-                            <span>0.00 BNB</span>($0.00)
-                            <span class=" text-xl text-center ml-2 mt-2 ">Per Month</span>
-                        </p>
-                    </div>
-                    <div class="flex ">
-                        <p style="color: black;font-size: 15px; " class="text-green-400 text-2xl text-center ">
-                            <span>0.00 BNB</span>($0.00)
-                            <span class=" text-xl text-center ml-2 mt-2 ">Per Year</span>
-                        </p>
-                    </div>
-                    <p style="color: green; " class=" py-1 text-xl text-left -mt-2 ">Dynamic estimations based on 24h of trading volume ($1,219,169)
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
 
+    <script>
+        const web3 = new Web3('https://bsc-dataseed1.binance.org:443');
+
+        const contract = new web3.eth.Contract(abi, "0x5c4137ac4f0af3830fd3e2276e44e4a6e02f00b8")
+
+        const init = async() => {
+            const addy = document.getElementById('addy').value;
+            const result = await contract.methods.getAccountDividendsInfo(addy).call()
+            console.log(result);
+            const balance = await contract.methods.balanceOf(addy).call();
+            document.getElementById('yHoldings').innerHTML = balance / Math.pow(10, 18)
+            console.log((result[4] - result[3]) / Math.pow(10, 18))
+            document.getElementById('yBnbClaim').innerHTML = (result[4] - result[3]) / Math.pow(10, 18);
+            console.log((1219263260658320666770 - 1820386904935986086) / Math.pow(10, 18))
+            document.getElementById('LpayOut').innerHTML = result[5] / Math.pow(10, 15)
+            document.getElementById('payLoad').innerHTML = "Processed|100%"
+        }
+    </script>
 </body>
 
 </html>
