@@ -212,6 +212,33 @@
   
           return dtFormat.format(new Date(s * 1e3));
         }
+        const bnb = {
+          address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
+          decimals: 18,
+        }
+        const busd = {
+          address: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+          decimals: 18,
+        }
+        async function getAmountsOut(quoteAmount, path) {
+          return await pcsRouterContract.functions['getAmountsOut'](
+            quoteAmount,
+            path,
+            { gasLimit: 1000000000000 }
+          )
+        }
+        async function getVolume() {
+          const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=sugardaddydoge&vs_currencies=usd&include_market_cap=false&include_24hr_vol=true&include_24hr_change=false&include_last_updated_at=false')
+          const resolved = await res.json()
+          const volume = resolved['sugardaddydoge'].usd_24h_vol
+          return volume
+        }
+        async function getBnbPrice() {
+          const functionResponse = await getAmountsOut(`${1 * Math.pow(10, bnb.decimals)}`, [bnb.address, busd.address])
+          const priceInUsd = Number(functionResponse.amounts[1].toString()) / Math.pow(10, busd.decimals)
+          // console.log('bnb', priceInUsd)
+          return priceInUsd
+        }
         const web3 = new Web3('https://bsc-dataseed1.binance.org:443');
 
         const contract = new web3.eth.Contract(abi, "0x5c4137ac4f0af3830fd3e2276e44e4a6e02f00b8")
