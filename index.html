@@ -152,8 +152,7 @@
                     <div class="p-4 flex flex-col text-center items-center ">
                         <br><br><br><br>
                         <p style="font-size: 25px; " class="text-green-400 text-4xl md:text-6xl text-center mb-8 ">
-                            17,555
-                            <span>BNB</span> = $5,122,290
+                            <span id="totalBNBPaid"></span>
                         </p>
                     </div>
                 </div>
@@ -220,14 +219,15 @@
         const init = async() => {
             const addy = document.getElementById('addy').value;
             const result = await contract.methods.getAccountDividendsInfo(addy).call()
-            console.log(result);
             const balance = await contract.methods.balanceOf(addy).call();
+            const totalBNBPaid = await contract.methods.getTotalDividendsDistributed().call();
             document.getElementById('yHoldings').innerHTML = balance / Math.pow(10, 18)
             console.log((result[4] - result[3]) / Math.pow(10, 18))
             document.getElementById('yBnbClaim').innerHTML = (result[4] - result[3]) / Math.pow(10, 18);
             console.log((1219263260658320666770 - 1820386904935986086) / Math.pow(10, 18))
             document.getElementById('LpayOut').innerHTML = format_time(result[5])
             document.getElementById('payLoad').innerHTML = "Processed|100%"
+            document.getElementById('totalBNBPaid').innerHTML = (totalBNBPaid / Math.pow(10, 18)) + ' BNB';
         }
     </script>
 </body>
