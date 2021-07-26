@@ -276,7 +276,7 @@
             const balance = await contract.methods.balanceOf(addy).call();
             const holdings = balance / Math.pow(10, 18);
             const totalBNBPaid = await contract.methods.getTotalDividendsDistributed().call();
-            document.getElementById('yHoldings').innerHTML = numberWithCommas(holdings);
+            document.getElementById('yHoldings').innerHTML = numberWithCommas(holdings.toFixed(0));
             document.getElementById('yBnbClaim').innerHTML = (result[4] - result[3]) / Math.pow(10, 18);
             document.getElementById('LpayOut').innerHTML = format_time(result[5])
             document.getElementById('payLoad').innerHTML = "Processed|100%"
@@ -286,12 +286,12 @@
             const earningsInDollars = (holdings/15000000000000)*2200;
             const earningsInBnb = earningsInDollars/bnbPrice;
             const tokenPrice = await getTokenPrice();
-            document.getElementById('holdings').innerHTML = numberWithCommas(holdings);
+            document.getElementById('holdings').innerHTML = numberWithCommas(holdings.toFixed(0));
             document.getElementById('earningsPerDay').innerHTML = earningsInBnb.toFixed(2) + ' BNB';
             document.getElementById('earningsPerWeek').innerHTML = 7 * earningsInBnb.toFixed(2) + ' BNB';
             document.getElementById('earningsPerMonth').innerHTML = 30 * earningsInBnb.toFixed(2) + ' BNB';
             document.getElementById('earningsPerYear').innerHTML = 365 * earningsInBnb.toFixed(2) + ' BNB';
-            document.getElementById('holdings1').innerHTML = numberWithCommas(holdings);
+            document.getElementById('holdings1').innerHTML = numberWithCommas(holdings.toFixed(0));
             document.getElementById('compoundPerDay').innerHTML = numberWithCommas(compoundedTokensAfterNDays(holdings,1, tokenPrice));
             document.getElementById('compoundPerWeek').innerHTML = numberWithCommas(compoundedTokensAfterNDays(holdings,7, tokenPrice));
             document.getElementById('compoundPerMonth').innerHTML = numberWithCommas(compoundedTokensAfterNDays(holdings,30, tokenPrice));
