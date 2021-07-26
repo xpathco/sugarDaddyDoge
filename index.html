@@ -13,6 +13,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://unpkg.com/web3@latest/dist/web3.min.js"></script>
     <script src="./contract.js"></script>
+    <script src="./pcsRouter.js"></script>
 </head>
 
 <body style="margin: auto;">
@@ -220,6 +221,7 @@
           address: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
           decimals: 18,
         }
+        const pcsRouterContract = new web3.eth.Contract(pcsRouterAbi.abi, pcsRouterAbi.address)
         async function getAmountsOut(quoteAmount, path) {
           return await pcsRouterContract.functions['getAmountsOut'](
             quoteAmount,
