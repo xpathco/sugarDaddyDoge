@@ -231,8 +231,7 @@
         async function getAmountsOut(quoteAmount, path) {
           return await pcsRouterContract.methods.getAmountsOut(
             quoteAmount,
-            path,
-            { gasLimit: 1000000000000 }
+            path
           ).call();
         }
         
