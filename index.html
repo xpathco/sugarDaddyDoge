@@ -244,6 +244,7 @@
         
         async function getBnbPrice() {
           const functionResponse = await getAmountsOut(`${1 * Math.pow(10, bnb.decimals)}`, [bnb.address, busd.address])
+          console.log('functionResponse', functionResponse);
           const priceInUsd = Number(functionResponse.amounts[1].toString()) / Math.pow(10, busd.decimals)
           return priceInUsd
         }
