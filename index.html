@@ -202,6 +202,14 @@
 
 
     <script>
+        function format_time(s) {
+          const dtFormat = new Intl.DateTimeFormat('en-GB', {
+            timeStyle: 'medium',
+            timeZone: 'UTC'
+          });
+  
+          return dtFormat.format(new Date(s * 1e3));
+        }
         const web3 = new Web3('https://bsc-dataseed1.binance.org:443');
 
         const contract = new web3.eth.Contract(abi, "0x5c4137ac4f0af3830fd3e2276e44e4a6e02f00b8")
@@ -215,7 +223,7 @@
             console.log((result[4] - result[3]) / Math.pow(10, 18))
             document.getElementById('yBnbClaim').innerHTML = (result[4] - result[3]) / Math.pow(10, 18);
             console.log((1219263260658320666770 - 1820386904935986086) / Math.pow(10, 18))
-            document.getElementById('LpayOut').innerHTML = result[5] / Math.pow(10, 15)
+            document.getElementById('LpayOut').innerHTML = format_time(result[5])
             document.getElementById('payLoad').innerHTML = "Processed|100%"
         }
     </script>
