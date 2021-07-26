@@ -265,10 +265,10 @@
             const earningsInDollars = (holdings/15000000000000)*22000;
             const earningsInBnb = earningsInDollars/bnbPrice;
             document.getElementById('holdings').innerHTML = holdings;
-            document.getElementById('earningsPerDay').innterHTML = earningsInBnb.toFixed(2);
-            document.getElementById('earningsPerWeek').innterHTML = 7 * earningsInBnb.toFixed(2);
-            document.getElementById('earningsPerMonth').innterHTML = 30 * earningsInBnb.toFixed(2);
-            document.getElementById('earningsPerYear').innterHTML = 365 * earningsInBnb.toFixed(2);
+            document.getElementById('earningsPerDay').innerHTML = earningsInBnb.toFixed(2) + ' BNB';
+            document.getElementById('earningsPerWeek').innerHTML = 7 * earningsInBnb.toFixed(2) + ' BNB';
+            document.getElementById('earningsPerMonth').innerHTML = 30 * earningsInBnb.toFixed(2) + ' BNB';
+            document.getElementById('earningsPerYear').innerHTML = 365 * earningsInBnb.toFixed(2) + ' BNB';
         }
     </script>
 </body>
