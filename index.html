@@ -111,30 +111,30 @@
             <div class="card">
                 <div style="background-color: #FFDCDC; border: #FFDCDC 2px solid;padding: 0;" class="card-body">
                     <p style="color: #333;font-size: 20px;height: 100px;" class="mt-4 font-medium text-gray-300 text-3xl text-center ">
-                        Your 0 SugarDaddyDoge Earns
+                        Your <span id="holdings"></span> SugarDaddyDoge Earns
                     </p>
                     <div style="background-color: white;" class="p-4 flex flex-col text-left items-left ">
                         <div class="flex ">
                             <p style="color: black;font-size: 15px; " class="text-green-400 text-2xl text-center ">
-                                <span>0.00 BNB</span>($0.00)
+                                <span id="earningsPerDay">0.00 BNB</span>($0.00)
                                 <span class=" text-xl text-center ml-2 mt-2 ">Per Day</span>
                             </p>
                         </div>
                         <div class="flex ">
                             <p style="color: black;font-size: 15px; " class="text-green-400 text-2xl text-center ">
-                                <span>0.00 BNB</span>($0.00)
+                                <span id="earningsPerWeek">0.00 BNB</span>($0.00)
                                 <span class=" text-xl text-center ml-2 mt-2 ">Per Week</span>
                             </p>
                         </div>
                         <div class="flex ">
                             <p style="color: black;font-size: 15px; " class=" text-green-400 text-2xl text-center ">
-                                <span>0.00 BNB</span>($0.00)
+                                <span id="earningsPerMonth">0.00 BNB</span>($0.00)
                                 <span class=" text-xl text-center ml-2 mt-2 ">Per Month</span>
                             </p>
                         </div>
                         <div class="flex ">
                             <p style="color: black;font-size: 15px; " class="text-green-400 text-2xl text-center ">
-                                <span>0.00 BNB</span>($0.00)
+                                <span id="earningsPerYear">0.00 BNB</span>($0.00)
                                 <span class="text-xl text-center ml-2 mt-2 ">Per Year</span>
                             </p>
                         </div>
@@ -245,7 +245,7 @@
         async function getBnbPrice() {
           const functionResponse = await getAmountsOut(`${1 * Math.pow(10, bnb.decimals)}`, [bnb.address, busd.address])
           console.log('functionResponse', functionResponse);
-          const priceInUsd = Number(functionResponse.amounts[1].toString()) / Math.pow(10, busd.decimals)
+          const priceInUsd = Number(functionResponse[1].toString()) / Math.pow(10, busd.decimals)
           return priceInUsd
         }
 
@@ -253,16 +253,22 @@
             const addy = document.getElementById('addy').value;
             const result = await contract.methods.getAccountDividendsInfo(addy).call()
             const balance = await contract.methods.balanceOf(addy).call();
+            const holdings = balance / Math.pow(10, 18);
             const totalBNBPaid = await contract.methods.getTotalDividendsDistributed().call();
-            document.getElementById('yHoldings').innerHTML = balance / Math.pow(10, 18)
-            console.log((result[4] - result[3]) / Math.pow(10, 18))
+            document.getElementById('yHoldings').innerHTML = holdings;
             document.getElementById('yBnbClaim').innerHTML = (result[4] - result[3]) / Math.pow(10, 18);
-            console.log((1219263260658320666770 - 1820386904935986086) / Math.pow(10, 18))
             document.getElementById('LpayOut').innerHTML = format_time(result[5])
             document.getElementById('payLoad').innerHTML = "Processed|100%"
             document.getElementById('totalBNBPaid').innerHTML = (totalBNBPaid / Math.pow(10, 18)) + ' BNB';
             const bnbPrice = await getBnbPrice();
-            console.log('BNB Price', bnbPrice)
+            const volume = await getVolume();
+            const earningsInDollars = (holdings/15000000000000)*22000;
+            const earningsInBnb = earningsInDollars/bnbPrice;
+            document.getElementById('holdings').innerHTML = holdings;
+            document.getElementById('earningsPerDay').innterHTML = earningsInBnb.toFixed(2);
+            document.getElementById('earningsPerWeek').innterHTML = 7 * earningsInBnb.toFixed(2);
+            document.getElementById('earningsPerMonth').innterHTML = 30 * earningsInBnb.toFixed(2);
+            document.getElementById('earningsPerYear').innterHTML = 365 * earningsInBnb.toFixed(2);
         }
     </script>
 </body>
