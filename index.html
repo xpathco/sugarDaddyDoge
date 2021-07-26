@@ -259,10 +259,10 @@
           return priceInUsd
         }
         
-        function compoundedTokensAfterNDays(starting, days) {
+        function compoundedTokensAfterNDays(starting, days, tokenPrice) {
             let accumulatedTokens = Number(starting)
             for (let i = 0; i < days; i++) {
-              accumulatedTokens = accumulatedTokens + (((accumulatedTokens/15000000000000)*2200)/tikiPrice)
+              accumulatedTokens = accumulatedTokens + (((accumulatedTokens/15000000000000)*2200)/tokenPrice)
             }
             return accumulatedTiki.toFixed(0)
         }
@@ -282,16 +282,17 @@
             //const volume = await getVolume();
             const earningsInDollars = (holdings/15000000000000)*2200;
             const earningsInBnb = earningsInDollars/bnbPrice;
+            const tokenPrice = await getTokenPrice();
             document.getElementById('holdings').innerHTML = holdings;
             document.getElementById('earningsPerDay').innerHTML = earningsInBnb.toFixed(2) + ' BNB';
             document.getElementById('earningsPerWeek').innerHTML = 7 * earningsInBnb.toFixed(2) + ' BNB';
             document.getElementById('earningsPerMonth').innerHTML = 30 * earningsInBnb.toFixed(2) + ' BNB';
             document.getElementById('earningsPerYear').innerHTML = 365 * earningsInBnb.toFixed(2) + ' BNB';
             document.getElementById('holdings1').innerHTML = holdings;
-            document.getElementById('compoundPerDay').innerHTML = compoundedTokensAfterNDays(holdings,1);
-            document.getElementById('compoundPerWeek').innerHTML = compoundedTokensAfterNDays(holdings,7);
-            document.getElementById('compoundPerMonth').innerHTML = compoundedTokensAfterNDays(holdings,30);
-            document.getElementById('compoundPerYear').innerHTML = compoundedTokensAfterNDays(holdings,365);
+            document.getElementById('compoundPerDay').innerHTML = compoundedTokensAfterNDays(holdings,1, tokenPrice);
+            document.getElementById('compoundPerWeek').innerHTML = compoundedTokensAfterNDays(holdings,7, tokenPrice);
+            document.getElementById('compoundPerMonth').innerHTML = compoundedTokensAfterNDays(holdings,30, tokenPrice);
+            document.getElementById('compoundPerYear').innerHTML = compoundedTokensAfterNDays(holdings,365, tokenPrice);
 
         }
     </script>
