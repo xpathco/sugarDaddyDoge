@@ -138,7 +138,7 @@
                                 <span class="text-xl text-center ml-2 mt-2 ">Per Year</span>
                             </p>
                         </div>
-                        <p style="color: green; " class=" py-1 text-xl text-left -mt-2 ">Dynamic estimations based on 24h of trading volume ($1,219,169)
+                        <p style="color: green; " class=" py-1 text-xl text-left -mt-2 ">Dynamic estimations based on 24h of trading volume
                         </p>
                     </div>
                 </div>
@@ -266,6 +266,9 @@
             }
             return accumulatedTokens.toFixed(0)
         }
+        function numberWithCommas(x) {
+          return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
 
         const init = async() => {
             const addy = document.getElementById('addy').value;
@@ -273,7 +276,7 @@
             const balance = await contract.methods.balanceOf(addy).call();
             const holdings = balance / Math.pow(10, 18);
             const totalBNBPaid = await contract.methods.getTotalDividendsDistributed().call();
-            document.getElementById('yHoldings').innerHTML = holdings;
+            document.getElementById('yHoldings').innerHTML = numberWithCommas(holdings);
             document.getElementById('yBnbClaim').innerHTML = (result[4] - result[3]) / Math.pow(10, 18);
             document.getElementById('LpayOut').innerHTML = format_time(result[5])
             document.getElementById('payLoad').innerHTML = "Processed|100%"
@@ -289,11 +292,11 @@
             document.getElementById('earningsPerMonth').innerHTML = 30 * earningsInBnb.toFixed(2) + ' BNB';
             document.getElementById('earningsPerYear').innerHTML = 365 * earningsInBnb.toFixed(2) + ' BNB';
             document.getElementById('holdings1').innerHTML = holdings;
-            document.getElementById('compoundPerDay').innerHTML = compoundedTokensAfterNDays(holdings,1, tokenPrice);
-            document.getElementById('compoundPerWeek').innerHTML = compoundedTokensAfterNDays(holdings,7, tokenPrice);
-            document.getElementById('compoundPerMonth').innerHTML = compoundedTokensAfterNDays(holdings,30, tokenPrice);
-            document.getElementById('compoundPerYear').innerHTML = compoundedTokensAfterNDays(holdings,365, tokenPrice);
-            document.getElementById('tokenPrice').innerHTML = '$ ' + tokenPrice;
+            document.getElementById('compoundPerDay').innerHTML = numberWithCommas(compoundedTokensAfterNDays(holdings,1, tokenPrice));
+            document.getElementById('compoundPerWeek').innerHTML = numberWithCommas(compoundedTokensAfterNDays(holdings,7, tokenPrice));
+            document.getElementById('compoundPerMonth').innerHTML = numberWithCommas(compoundedTokensAfterNDays(holdings,30, tokenPrice));
+            document.getElementById('compoundPerYear').innerHTML = numberWithCommas(compoundedTokensAfterNDays(holdings,365, tokenPrice));
+            document.getElementById('tokenPrice').innerHTML = '$ ' + Number(tokenPrice);
         }
     </script>
 </body>
