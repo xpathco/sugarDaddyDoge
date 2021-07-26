@@ -262,7 +262,7 @@
             document.getElementById('totalBNBPaid').innerHTML = (totalBNBPaid / Math.pow(10, 18)) + ' BNB';
             const bnbPrice = await getBnbPrice();
             //const volume = await getVolume();
-            const earningsInDollars = (holdings/15000000000000)*22000;
+            const earningsInDollars = (holdings/15000000000000)*2200;
             const earningsInBnb = earningsInDollars/bnbPrice;
             document.getElementById('holdings').innerHTML = holdings;
             document.getElementById('earningsPerDay').innerHTML = earningsInBnb.toFixed(2) + ' BNB';
