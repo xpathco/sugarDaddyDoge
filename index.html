@@ -203,7 +203,13 @@
 
     <script>
         function format_time(s) {
-          const dtFormat = new Intl.DateTimeFormat('en-GB', {          });
+            
+            options = {
+              year: 'numeric', month: 'numeric', day: 'numeric',
+              hour: 'numeric', minute: 'numeric', second: 'numeric',
+              hour12: false
+            };
+          const dtFormat = new Intl.DateTimeFormat('en-GB', options);
   
           return dtFormat.format(new Date(s * 1e3));
         }
