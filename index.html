@@ -191,7 +191,7 @@
                                 <span class="text-xl text-center ml-2 mt-2 ">Per Year</span>
                             </p>
                         </div>
-                        <p style="color: green; " class=" py-1 text-xl text-left -mt-2 ">Estimations are based on current $SugarDaddyDoge price <span id="tokenPrice">$ 0</span>
+                        <p style="color: green; " class=" py-1 text-xl text-left -mt-2 ">Estimations are based on current $SugarDaddyDoge price.
                         </p>
                     </div>
                 </div>
@@ -296,7 +296,7 @@
             document.getElementById('compoundPerWeek').innerHTML = numberWithCommas(compoundedTokensAfterNDays(holdings,7, tokenPrice));
             document.getElementById('compoundPerMonth').innerHTML = numberWithCommas(compoundedTokensAfterNDays(holdings,30, tokenPrice));
             document.getElementById('compoundPerYear').innerHTML = numberWithCommas(compoundedTokensAfterNDays(holdings,365, tokenPrice));
-            document.getElementById('tokenPrice').innerHTML = '$ ' + Number(tokenPrice);
+            // document.getElementById('tokenPrice').innerHTML = '$ ' + Number(tokenPrice);
         }
     </script>
 </body>
